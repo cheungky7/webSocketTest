@@ -16,7 +16,7 @@
   function testWebSocket()
   {
     websocket = new WebSocket(wsUri);
-	console.log(`Uri:${wsUri}`);
+	  console.log(`Uri:${wsUri}`);
     websocket.onopen = function(evt) { onOpen(evt) };
     websocket.onclose = function(evt) { onClose(evt) };
     websocket.onmessage = function(evt) { onMessage(evt) };
@@ -37,7 +37,7 @@
   function onMessage(evt)
   {
     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
-    websocket.close();
+   // websocket.close();
   }
 
   function onError(evt)
@@ -56,7 +56,7 @@
     var pre = document.createElement("p");
     pre.style.wordWrap = "break-word";
     pre.innerHTML = message;
-	console.log(message);
+  	console.log(message);
     output.appendChild(pre);
   }
 
@@ -65,6 +65,12 @@
   </script>
 
   <h2>WebSocket Test</h2>
+  <button id='Disconnect'>Disconnect</button>
+  <script language="javascript" type="text/javascript">
+    document.querySelector("#Disconnect").addEventListener("click",  ()=>{
+      websocket.close();
+    });
+  </script>
 
   <div id="output"></div>
           

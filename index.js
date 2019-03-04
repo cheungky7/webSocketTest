@@ -6,5 +6,6 @@ wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     console.log('received: %s', message)
   })
-  ws.send('something')
+  // ws.send('something')
+  setInterval(() => { ws.send('something testing') }, 100)
 })
