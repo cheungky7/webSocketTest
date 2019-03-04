@@ -26,7 +26,13 @@
   function onOpen(evt)
   {
     writeToScreen("CONNECTED");
-    doSend("WebSocket rocks");
+    // doSend("WebSocket rocks");
+    let testJson={
+      action: 'echo',
+      msg: 'testing from client'
+    }
+    websocket.send(JSON.stringify(testJson));
+
   }
 
   function onClose(evt)
@@ -51,6 +57,14 @@
     websocket.send(message);
   }
 
+  function doSendEx(message)
+  {
+    writeToScreen("SENT: " + message.msg);
+    const dataMsg=JSON.stringify(message);
+    websocket.send(dataMsg);
+  }
+
+
   function writeToScreen(message)
   {
     var pre = document.createElement("p");
@@ -71,6 +85,12 @@
   <br>
   <br>
   <button id='Connect'>Connect</button> <button id='Disconnect'>Disconnect</button>
+  <br>
+  <br>
+  <textarea id="echoMessage" cols="40" rows="5"></textarea>
+  <br>
+  <br>
+  <button id='echo'>echo</button> <button id='echo_endless'>echo endless</button>
   <script language="javascript" type="text/javascript">
      document.querySelector("#Connect").addEventListener("click",  ()=>{
      // let WSURL=document.querySelector("#wsUri").innerHTML;
@@ -86,6 +106,28 @@
     document.querySelector("#Disconnect").addEventListener("click",  ()=>{
       websocket.close();
     });
+
+    document.querySelector("#echo").addEventListener("click",  ()=>{
+      // websocket.close();
+      let echoMessage=document.querySelector("#echoMessage").value;
+      let message={
+        action: 'echo',
+        msg: echoMessage,
+      }
+      doSendEx(message)
+    });
+
+    document.querySelector("#echo_endless").addEventListener("click",  ()=>{
+      // websocket.close();
+      let echoMessage=document.querySelector("#echoMessage").value;
+      let message={
+        action: 'echoN',
+        msg: echoMessage,
+        N: 10, // timeInterval
+      }
+      doSendEx(message)
+    });
+
   </script>
 
   <div id="output"></div>
