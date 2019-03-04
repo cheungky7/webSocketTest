@@ -10,10 +10,14 @@ function echoToClient(ws, JsonData) {
 
 function echoToClientN(ws, JsonData) {
   setInterval(() => {
-    ws.send(`Rely${EchoCounter}: ${JsonData.msg}`)
-    EchoCounter += 1
-    if (EchoCounter > 999999) {
-      EchoCounter = 0
+    try {
+      ws.send(`Rely${EchoCounter}: ${JsonData.msg}`)
+      EchoCounter += 1
+      if (EchoCounter > 999999) {
+        EchoCounter = 0
+      }
+    } catch (e) {
+      console.log(e)  
     }
   }, JsonData.N)
 }
