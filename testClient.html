@@ -42,7 +42,8 @@
 
   function onMessage(evt)
   {
-    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    // writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    writeToOutputScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
    // websocket.close();
   }
 
@@ -64,6 +65,13 @@
     websocket.send(dataMsg);
   }
 
+  function doSendEx2(message)
+  {
+    writeToOutputScreen("SENT: " + message.msg);
+    const dataMsg=JSON.stringify(message);
+    websocket.send(dataMsg);
+  }
+
 
   function writeToScreen(message)
   {
@@ -73,6 +81,12 @@
     console.log(message);
     let output = document.getElementById("output");
     output.appendChild(pre);
+  }
+
+  function writeToOutputScreen(message)
+  {
+   const ouputBox=document.querySelector("#OutputMsg");
+   ouputBox.innerHTML = message;
   }
 
   // window.addEventListener("load", init, false);
@@ -91,6 +105,9 @@
   <br>
   <br>
   <button id='echo'>echo</button> <button id='echo_endless'>echo endless</button>
+  <br>
+  <br>
+  <div id='OutputMsg'></div>
   <script language="javascript" type="text/javascript">
      document.querySelector("#Connect").addEventListener("click",  ()=>{
      // let WSURL=document.querySelector("#wsUri").innerHTML;
