@@ -56,17 +56,33 @@
     var pre = document.createElement("p");
     pre.style.wordWrap = "break-word";
     pre.innerHTML = message;
-  	console.log(message);
+    console.log(message);
+    let output = document.getElementById("output");
     output.appendChild(pre);
   }
 
-  window.addEventListener("load", init, false);
+  // window.addEventListener("load", init, false);
 
   </script>
 
   <h2>WebSocket Test</h2>
-  <button id='Disconnect'>Disconnect</button>
+  <p>URL</p>
+  <input id="wsUri" size="35" value='ws://192.168.3.150:3000/' >
+  <br>
+  <br>
+  <button id='Connect'>Connect</button> <button id='Disconnect'>Disconnect</button>
   <script language="javascript" type="text/javascript">
+     document.querySelector("#Connect").addEventListener("click",  ()=>{
+     // let WSURL=document.querySelector("#wsUri").innerHTML;
+     let WSURL=document.querySelector("#wsUri").value;
+     // console.log(document.querySelector("#wsUri"));
+      websocket = new WebSocket(WSURL);
+	    console.log(`Uri:${WSURL}`);
+      websocket.onopen = function(evt) { onOpen(evt) };
+      websocket.onclose = function(evt) { onClose(evt) };
+      websocket.onmessage = function(evt) { onMessage(evt) };
+      websocket.onerror = function(evt) { onError(evt) };
+    });
     document.querySelector("#Disconnect").addEventListener("click",  ()=>{
       websocket.close();
     });
