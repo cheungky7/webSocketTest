@@ -2,6 +2,8 @@ const WebSocket = require('ws')
 // const wss = new WebSocket.Server({ port: 8080 })
 const wss = new WebSocket.Server({ port: 3000 })
 
+let IntervalTask = null
+
 let EchoCounter = 0
 
 function echoToClient(ws, JsonData) {
@@ -15,7 +17,12 @@ function echoToClient(ws, JsonData) {
 }
 
 function echoToClientN(ws, JsonData) {
-  setInterval(() => {
+
+  if (IntervalTask != null) {
+    clearInterval(IntervalTask)
+  }
+
+  IntervalTask = setInterval(() => {
     try {
     //  ws.send(`Rely${EchoCounter}: ${JsonData.msg}`)
 
@@ -31,7 +38,8 @@ function echoToClientN(ws, JsonData) {
         EchoCounter = 0
       }
     } catch (e) {
-      console.log(e)  
+      console.log(e)
+      clearInterval(IntervalTask)
     }
   }, JsonData.N)
 }
@@ -57,4 +65,9 @@ wss.on('connection', (ws) => {
   })
   // ws.send('something')
   // setInterval(() => { ws.send('something testing') }, 100)
+  ws.on('close', () => {
+    console.log('disconnected')
+    clearInterval(IntervalTask)
+  })
+
 })
