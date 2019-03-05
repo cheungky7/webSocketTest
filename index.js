@@ -30,7 +30,7 @@ function echoToClientN(ws, JsonData) {
         type: 'reply',
         data: `Rely${EchoCounter}: ${JsonData.msg}`
       })
-
+      // console.log(data)
       ws.send(data)
 
       EchoCounter += 1
