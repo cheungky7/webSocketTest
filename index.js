@@ -5,13 +5,27 @@ const wss = new WebSocket.Server({ port: 3000 })
 let EchoCounter = 0
 
 function echoToClient(ws, JsonData) {
-  ws.send(JsonData.msg)
+ // ws.send(JsonData.msg)
+  const data = JSON.stringify({
+    type: 'reply',
+    data: JsonData.msg
+  })
+
+  ws.send(data)
 }
 
 function echoToClientN(ws, JsonData) {
   setInterval(() => {
     try {
-      ws.send(`Rely${EchoCounter}: ${JsonData.msg}`)
+    //  ws.send(`Rely${EchoCounter}: ${JsonData.msg}`)
+
+      const data = JSON.stringify({
+        type: 'reply',
+        data: `Rely${EchoCounter}: ${JsonData.msg}`
+      })
+
+      ws.send(data)
+
       EchoCounter += 1
       if (EchoCounter > 999999) {
         EchoCounter = 0
